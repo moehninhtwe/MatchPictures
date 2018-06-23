@@ -1,18 +1,12 @@
 package matchpictures.com.matchpictures.model;
 
-import org.simpleframework.xml.Element;
-import org.simpleframework.xml.Root;
-
-@Root(name="photo")
 public class PhotoItem {
-    @Element(name = "id")
     private String id;
-    @Element(name = "secret")
     private String secret;
-    @Element(name = "server")
     private String server;
-    @Element(name = "farm")
     private String farm;
+
+    private String url;
 
     public String getId() {
         return id;
@@ -46,4 +40,11 @@ public class PhotoItem {
         this.farm = farm;
     }
 
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
 }
