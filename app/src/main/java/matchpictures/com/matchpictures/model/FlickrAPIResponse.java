@@ -1,15 +1,12 @@
 package matchpictures.com.matchpictures.model;
 
-import java.util.List;
-
 public class FlickrAPIResponse {
-    private List<PhotoItem> photo;
-
-    public List<PhotoItem> getPhoto() {
-        return photo;
+    private Photos photos;
+    public Photos getPhotos() {
+        return photos;
     }
 
-    public void setPhoto(List<PhotoItem> photo) {
-        this.photo = photo;
+    public void setPhotos(Photos photos) {
+        this.photos = photos;
     }
 }

@@ -5,7 +5,6 @@ public class PhotoItem {
     private String secret;
     private String server;
     private String farm;
-
     private String url;
 
     public String getId() {

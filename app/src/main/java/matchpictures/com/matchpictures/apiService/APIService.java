@@ -19,8 +19,8 @@ public class APIService {
 
     public static Retrofit provideAdapter() {
         okhttp3.OkHttpClient client = new OkHttpClient();
-        final OkHttpClient.Builder builder =
-            client.newBuilder().addInterceptor(flickrRequestInterceptor);
+        final OkHttpClient.Builder builder = client.newBuilder().addInterceptor(
+            flickrRequestInterceptor);
         if (BuildConfig.DEBUG) {
             final HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
             loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -35,5 +35,9 @@ public class APIService {
 
     public static GetRecentPhotosService provideGetRecentPhotosService() {
         return provideAdapter().create(GetRecentPhotosService.class);
+    }
+
+    public static GetAvailableSizesService provideAvailableSize() {
+        return provideAdapter().create(GetAvailableSizesService.class);
     }
 }
