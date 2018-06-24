@@ -12,7 +12,14 @@ public class PhotoPresenter implements IPresenter {
     }
 
     @Override public void flip(PhotoItem photoItem, boolean isSecondFlip) {
-        if(isSecondFlip && isMatch(photoItem, firstPhotoItem)) {
+        iPhotoView.flipOver();
+        if (!isSecondFlip) {
+            firstPhotoItem = photoItem;
+        } else {
+            iPhotoView.updateFlip(1);
+            if (!isMatch(photoItem, firstPhotoItem)) {
+                iPhotoView.flipBack();
+            }
         }
     }
 

@@ -15,9 +15,11 @@ import matchpictures.com.matchpictures.model.PhotoItem;
 public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHolder> {
     private List<PhotoItem> listOfPhotoItems;
     private Context context;
+    private PhotoItemClickListener photoItemClickListener;
 
-    public PhotoAdapter(Context context) {
+    public PhotoAdapter(Context context, PhotoItemClickListener photoItemClickListener) {
         this.context = context;
+        this.photoItemClickListener = photoItemClickListener;
     }
 
     public void setListOfPhotoItems(List<PhotoItem> listOfPhotoItems) {
@@ -26,15 +28,17 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
 
     @NonNull @Override public PhotoViewHolder onCreateViewHolder(
         @NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.photo_item_view,
-                                                                     parent, false);
+        View view = LayoutInflater.from(parent.getContext())
+            .inflate(R.layout.photo_item_view, parent, false);
         return new PhotoViewHolder(view);
     }
 
     @Override public void onBindViewHolder(
         @NonNull PhotoViewHolder holder, int position) {
-        Log.d("MHH", String.valueOf(position));
         Glide.with(context).load(listOfPhotoItems.get(position).getUrl()).into(holder.ivPhoto);
+        holder.itemView.setOnClickListener(
+            view -> photoItemClickListener.onClick(view, listOfPhotoItems.get(position), position));
+
     }
 
     @Override public int getItemCount() {
@@ -48,5 +52,9 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
             super(view);
             ivPhoto = view.findViewById(R.id.iv_photo_item);
         }
+    }
+
+    public interface PhotoItemClickListener {
+        void onClick(View view, PhotoItem photoItem, int position);
     }
 }

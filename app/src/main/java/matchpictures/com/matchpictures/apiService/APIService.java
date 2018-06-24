@@ -1,5 +1,6 @@
 package matchpictures.com.matchpictures.apiService;
 
+import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import matchpictures.com.matchpictures.BuildConfig;
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
@@ -29,6 +30,7 @@ public class APIService {
 
         final Retrofit.Builder retrofitBuilder = new Retrofit.Builder().client(builder.build())
             .baseUrl(endPoint)
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create());
         return retrofitBuilder.build();
     }

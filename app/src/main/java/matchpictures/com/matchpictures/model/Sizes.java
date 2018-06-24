@@ -3,14 +3,14 @@ package matchpictures.com.matchpictures.model;
 import java.util.List;
 
 public class Sizes {
-    private List<Size> availableSizeList;
+    private List<Size> size;
 
     public List<Size> getAvailableSizeList() {
-        return availableSizeList;
+        return size;
     }
 
     public void setAvailableSizeList(
-        List<Size> availableSizeList) {
-        this.availableSizeList = availableSizeList;
+        List<Size> size) {
+        this.size = size;
     }
 }
