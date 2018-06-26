@@ -5,7 +5,7 @@ import matchpictures.com.matchpictures.model.PhotoItem;
 
 public class Board {
     private List<PhotoItem> photoItemList;
-    private PhotoItem[][] photoBoard = new PhotoItem[4][4];
+    private PhotoItem[][] photoBoard = new PhotoItem[Constant.NO_OF_ROWS][Constant.NO_OF_COLUMNS];
 
     public Board(List<PhotoItem> photoItemList) {
         this.photoItemList = photoItemList;
@@ -15,7 +15,7 @@ public class Board {
     private void setBoard() {
         for (int i = 0; i < photoBoard.length; i++) {
             for (int j = 0; j < photoBoard.length; j++) {
-                photoBoard[i][j] = photoItemList.get(i * 4 + j);
+                photoBoard[i][j] = photoItemList.get(i * Constant.NO_OF_ROWS + j);
             }
         }
     }
@@ -31,7 +31,7 @@ public class Board {
     public boolean isFinished() {
         for (int i = 0; i < photoBoard.length; i++) {
             for (int j = 0; j < photoBoard.length; j++) {
-                if(!photoBoard[i][j].isOpen()) return false;
+                if (!photoBoard[i][j].isOpen()) return false;
             }
         }
         return true;

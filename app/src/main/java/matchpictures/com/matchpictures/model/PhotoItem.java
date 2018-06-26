@@ -8,6 +8,16 @@ public class PhotoItem {
     private String url;
     private boolean isOpen;
 
+    public PhotoItem(
+        String id, String secret, String server, String farm, String url, boolean isOpen) {
+        this.id = id;
+        this.secret = secret;
+        this.server = server;
+        this.farm = farm;
+        this.url = url;
+        this.isOpen = isOpen;
+    }
+
     public String getId() {
         return id;
     }

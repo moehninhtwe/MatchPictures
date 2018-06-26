@@ -8,5 +8,6 @@ import retrofit2.http.Query;
 public interface GetRecentPhotosService {
     @GET("/services/rest/?nojsoncallback=1") Call<FlickrAPIResponse> getRecentPhotos(
         @Query("api_key") String apiKey, @Query("method") String method,
-        @Query("format") String format, @Query("per_page") String perPage);
+        @Query("format") String format, @Query("per_page") int perPage,
+        @Query("page") int page);
 }

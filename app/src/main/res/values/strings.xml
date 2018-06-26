@@ -1,4 +1,7 @@
 <resources>
   <string name="app_name">MatchPictures</string>
   <string name="no_of_flips">Total flips: \u0020 %s</string>
+  <string name="reset">Reset</string>
+  <string name="done">Done!</string>
+  <string name="something_went_wrong">Oops something went wrong!</string>
 </resources>

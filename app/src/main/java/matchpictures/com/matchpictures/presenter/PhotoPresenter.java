@@ -26,8 +26,6 @@ public class PhotoPresenter implements IPresenter {
 
     @Override public void onPhotoClicked(int x, int y) {
         PhotoItem photoItem = board.getPhotoItem(x, y);
-        Log.d("MHH click ",
-            String.valueOf(x) + " - " + String.valueOf(y));
         if (firstPhotoItem == null) {
             if (!photoItem.isOpen()) {
                 firstPhotoItem = photoItem;
@@ -39,27 +37,25 @@ public class PhotoPresenter implements IPresenter {
             }
         } else {
             if (!photoItem.isOpen()) {
-                Log.d("MHH", String.valueOf(photoItem.isOpen()));
-                iPhotoView.updateFlip(totalFlips++);
+                iPhotoView.updateFlip(++totalFlips);
                 iPhotoView.flipOver();
                 Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    public void run() {
-                        if (!match(photoItem, firstPhotoItem)) {
-                            iPhotoView.flipBack();
-                            photoItem.setOpen(false);
-                            board.setPhotoItem(x, y, photoItem);
-                            firstPhotoItem.setOpen(false);
-                            board.setPhotoItem(firstPhotoXaxis, firstPhotoYaxis, firstPhotoItem);
-                        } else {
-                            photoItem.setOpen(true);
-                            board.setPhotoItem(x, y, photoItem);
-                            if (board.isFinished()) {
-
-                            }
+                handler.postDelayed(() -> {
+                    if (!match(photoItem, firstPhotoItem)) {
+                        iPhotoView.flipBack();
+                        photoItem.setOpen(false);
+                        board.setPhotoItem(x, y, photoItem);
+                        firstPhotoItem.setOpen(false);
+                        board.setPhotoItem(firstPhotoXaxis, firstPhotoYaxis, firstPhotoItem);
+                    } else {
+                        photoItem.setOpen(true);
+                        board.setPhotoItem(x, y, photoItem);
+                        iPhotoView.leaveOpen();
+                        if (board.isFinished()) {
+                            iPhotoView.finishGame();
                         }
-                        firstPhotoItem = null;
                     }
+                    firstPhotoItem = null;
                 }, 1000);
             }
         }
@@ -70,6 +66,7 @@ public class PhotoPresenter implements IPresenter {
     }
 
     @Override public void reset() {
+        totalFlips = 0;
         iPhotoView.resetView();
     }
 }

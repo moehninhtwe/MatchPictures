@@ -7,6 +7,8 @@ public interface IPhotoView {
 
     void flipBack();
 
+    void leaveOpen();
+
     void resetView();
 
     void finishGame();
