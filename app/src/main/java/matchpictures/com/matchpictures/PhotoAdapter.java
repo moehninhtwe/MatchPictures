@@ -26,6 +26,11 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
         this.listOfPhotoItems = listOfPhotoItems;
     }
 
+    public void setListOfPhotoItemsAfterReset(List<PhotoItem> photoItems) {
+        this.listOfPhotoItems = photoItems;
+        notifyDataSetChanged();
+    }
+
     @NonNull @Override public PhotoViewHolder onCreateViewHolder(
         @NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
@@ -37,7 +42,10 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
         @NonNull PhotoViewHolder holder, int position) {
         Glide.with(context).load(listOfPhotoItems.get(position).getUrl()).into(holder.ivPhoto);
         holder.itemView.setOnClickListener(
-            view -> photoItemClickListener.onClick(view, listOfPhotoItems.get(position), position));
+            view -> {
+                Log.d("MHH", listOfPhotoItems.get(position).getId());
+                photoItemClickListener.onClick(view, position);
+            });
 
     }
 
@@ -55,6 +63,6 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
     }
 
     public interface PhotoItemClickListener {
-        void onClick(View view, PhotoItem photoItem, int position);
+        void onClick(View view, int position);
     }
 }

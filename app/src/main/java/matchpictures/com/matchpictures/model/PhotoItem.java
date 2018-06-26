@@ -6,6 +6,7 @@ public class PhotoItem {
     private String server;
     private String farm;
     private String url;
+    private boolean isOpen;
 
     public String getId() {
         return id;
@@ -45,5 +46,13 @@ public class PhotoItem {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public boolean isOpen() {
+        return isOpen;
+    }
+
+    public void setOpen(boolean open) {
+        isOpen = open;
     }
 }

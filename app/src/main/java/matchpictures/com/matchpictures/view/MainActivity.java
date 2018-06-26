@@ -1,12 +1,16 @@
 package matchpictures.com.matchpictures.view;
 
 import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -31,18 +35,25 @@ public class MainActivity extends AppCompatActivity
     implements IPhotoView, PhotoAdapter.PhotoItemClickListener {
     private PhotoPresenter photoPresenter;
     private RecyclerView recyclerView;
+    private TextView tvTotalFlips;
+    private TextView tvFinishGame;
     private PhotoAdapter photoAdapter;
-    private List<PhotoItem> listOfPhotoItems = new ArrayList<>();
+    private static List<PhotoItem> listOfPhotoItems = new ArrayList<>();
     private HashMap<String, PhotoItem> photoItemsMap = new HashMap<>();
-    private HashMap<Integer, PhotoItem> flippedPhotos = new HashMap<>();
+    private View firstClickedView, clickedView;
+    private Button btnReset;
+    private int totalClicks = 0;
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        photoPresenter = new PhotoPresenter(this);
         photoAdapter = new PhotoAdapter(this, this);
         recyclerView = findViewById(R.id.rc_photos);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 4));
+        tvTotalFlips = findViewById(R.id.tv_total_flip);
+        tvFinishGame = findViewById(R.id.tv_done_msg);
+        btnReset = findViewById(R.id.btn_reset);
+        btnReset.setOnClickListener(view -> photoPresenter.reset());
     }
 
     @Override protected void onResume() {
@@ -50,16 +61,36 @@ public class MainActivity extends AppCompatActivity
         preparePhotos();
     }
 
-    @Override public void updateFlip(int flip) {
-        Log.d("MHH", "update flip");
+    @Override public void updateFlip(int totalFlips) {
+        tvTotalFlips.setText(
+            String.format(getString(R.string.no_of_flips), String.valueOf(totalFlips)));
     }
 
     @Override public void flipOver() {
-        Log.d("MHH", "Flip over");
+        //ImageView ivCover = clickedView.findViewById(R.id.iv_photo_cover);
+        //ivCover.setBackgroundColor(Color.TRANSPARENT);
+        Log.d("MHH", "Flipover");
     }
 
     @Override public void flipBack() {
-        Log.d("MHH", "Flip back");
+        //ImageView ivFirstPhotoCover = firstClickedView.findViewById(R.id.iv_photo_cover);
+        //ivFirstPhotoCover.setBackgroundColor(Color.GRAY);
+        //ImageView ivSecondPhotoCover = clickedView.findViewById(R.id.iv_photo_cover);
+        //ivSecondPhotoCover.setBackgroundColor(Color.GRAY);
+        firstClickedView = null;
+        totalClicks = 0;
+        Log.d("MHH", "Flipblack");
+    }
+
+    @Override public void finishGame() {
+        tvFinishGame.setVisibility(View.VISIBLE);
+    }
+
+    @Override public void resetView() {
+        Collections.shuffle(listOfPhotoItems);
+        tvFinishGame.setVisibility(View.GONE);
+        photoPresenter.setPhotoItems(listOfPhotoItems);
+        photoAdapter.setListOfPhotoItemsAfterReset(listOfPhotoItems);
     }
 
     private void preparePhotos() {
@@ -75,7 +106,6 @@ public class MainActivity extends AppCompatActivity
             }
 
             @Override public void onFailure(Call<FlickrAPIResponse> call, Throwable t) {
-                Log.d("MHH", t.getMessage());
             }
         });
     }
@@ -118,6 +148,7 @@ public class MainActivity extends AppCompatActivity
             }
         }
         Collections.shuffle(listOfPhotoItems);
+        photoPresenter = new PhotoPresenter(this, listOfPhotoItems);
         photoAdapter.setListOfPhotoItems(listOfPhotoItems);
         recyclerView.setAdapter(photoAdapter);
     }
@@ -129,11 +160,14 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override public void onClick(
-        View view, PhotoItem photoItem, int position) {
-        if (!flippedPhotos.containsKey(position)) {
-            flippedPhotos.put(position, photoItem);
-            photoPresenter.flip(photoItem, flippedPhotos.size() == 2 ? true : false);
-            if (flippedPhotos.size() == 2) flippedPhotos.clear();
+        View view, int position) {
+        totalClicks++;
+        if (totalClicks <= 2) {
+            int x = position / 4;
+            int y = position % 4;
+            if (firstClickedView == null) firstClickedView = view;
+            clickedView = view;
+            photoPresenter.onPhotoClicked(x, y);
         }
     }
 }

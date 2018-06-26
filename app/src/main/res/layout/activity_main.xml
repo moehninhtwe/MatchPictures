@@ -2,21 +2,41 @@
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="match_parent"
     android:layout_marginLeft="20dp"
     android:layout_marginRight="20dp"
     tools:context=".view.MainActivity">
 
-  <!--<TextView-->
-      <!--android:id="@+id/tv_no_flip"-->
-      <!--android:layout_width="wrap_content"-->
-      <!--android:layout_height="wrap_content"-->
-      <!--android:text="No Of Flip:"/>-->
+  <android.support.v7.widget.AppCompatTextView
+      android:id="@+id/tv_total_flip"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="No Of Flip:"
+      android:textSize="30sp"
+      app:layout_constraintBottom_toTopOf="@+id/rc_photos"/>
+  <android.support.v7.widget.AppCompatButton
+      android:id="@+id/btn_reset"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="Reset"
+      app:layout_constraintLeft_toRightOf="@+id/tv_total_flip"
+      app:layout_constraintRight_toRightOf="parent"/>
+  <android.support.v7.widget.AppCompatTextView
+      android:id="@+id/tv_done_msg"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="Congratulations!"
+      android:textSize="30sp"
+      android:visibility="gone"
+      app:layout_constraintBottom_toTopOf="@+id/rc_photos"
+      app:layout_constraintTop_toBottomOf="@id/tv_total_flip"/>
+
   <android.support.v7.widget.RecyclerView
       android:id="@+id/rc_photos"
-      android:layout_width="match_parent"
+      android:layout_width="wrap_content"
       android:layout_height="match_parent"
-      />
-
+      android:layout_marginTop="80dp"
+      app:layout_constraintTop_toBottomOf="@+id/tv_total_flip"
+  />
 </android.support.constraint.ConstraintLayout>
