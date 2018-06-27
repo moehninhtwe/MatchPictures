@@ -86,9 +86,9 @@ public class MainActivity extends AppCompatActivity
 
     @Override public void flipBack() {
         ImageView ivFirstPhotoCover = firstClickedView.findViewById(R.id.iv_photo_cover);
-        ivFirstPhotoCover.setBackgroundColor(getResources().getColor(R.color.textColor));
+        ivFirstPhotoCover.setBackgroundColor(getResources().getColor(R.color.gray));
         ImageView ivSecondPhotoCover = clickedView.findViewById(R.id.iv_photo_cover);
-        ivSecondPhotoCover.setBackgroundColor(getResources().getColor(R.color.textColor));
+        ivSecondPhotoCover.setBackgroundColor(getResources().getColor(R.color.gray));
         firstClickedView = null;
         totalClicks = 0;
     }
